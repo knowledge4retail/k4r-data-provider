@@ -1,0 +1,15 @@
+- name: shelf
+  class_name: Shelf
+  id_name: shelf_id
+  topic_prefix: shelf
+  package_name: k4r_data
+  package_msgs_name: k4r_data_msgs
+  launch_file: True
+- name: product
+  class_name: Product
+  # use gtin instead?
+  id_name: product_id
+  topic_prefix: product
+  package_name: k4r_data
+  package_msgs_name: k4r_data_msgs
+  launch_file: True

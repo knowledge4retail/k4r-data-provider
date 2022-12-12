@@ -1,0 +1,37 @@
+[
+  {
+    "Facing": "http://knowrob.org/kb/shop.owl#ProductFacingStanding_LSWNGFKB",
+    "FacingPose": [
+      "DMBFloorT7W100_MDZUHEIP",
+      [
+        -0.18770506199100814,
+        -0.02,
+        0.12098441998649997
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "Frame": "http://knowrob.org/kb/dm-market.owl#DMShelfW100_VCLOQHYW",
+    "FramePose": [
+      "map",
+      [
+        4.30771992553,
+        -0.10045495309,
+        1.0
+      ],
+      [
+        0.0,
+        0.0,
+        -0.715562013314,
+        0.698549214517
+      ]
+    ],
+    "Layer": "http://knowrob.org/kb/dm-market.owl#DMBFloorT7W100_MDZUHEIP",
+    "Product": "http://knowrob.org/kb/shop.owl#ProductWithAN544205",
+    "TFFrame": "DMShelfW100_VCLOQHYW"
+  }
+]

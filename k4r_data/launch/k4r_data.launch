@@ -1,0 +1,29 @@
+<launch>
+  <!-- provide data service -->
+
+  <!-- values are a list of "static", "knowrob" and/or "dt_api" -->
+  <arg name="data_provider" default="$(env DATA_PROVIDER)" />
+
+  <!-- data for dt-api -->
+  <arg name="pks12_pw"             default="$(env PKCS12_PW)" />
+  <arg name="use_certificate"      default="$(env DTAPI_USE_CERTIFICATE)" />
+  <arg name="dtapi_uri"            default="$(env DTAPI_URI)" />
+  <arg name="certificate_filename" default="$(env CERTIFICATE_FILENAME)" />
+
+  <node name="load_k4r_data" pkg="k4r_data"
+    type="k4r_data_to_ros.py" output="screen">
+    <!-- load shelfs and products from data provider and store in map -->
+    <param name="data_provider" value="$(arg data_provider)" />
+
+    <param name="pks12_pw"             value="$(arg pks12_pw)" />
+    <param name="use_certificate"      value="$(arg use_certificate)" />
+    <param name="dtapi_uri"            value="$(arg dtapi_uri)" />
+    <param name="certificate_filename" value="$(arg certificate_filename)" />
+  </node>
+
+  <!-- provide shelves and products -->
+  <include file="$(find k4r_data)/launch/roscrud.launch" />
+
+  <node name="shelves_to_waypoints" pkg="k4r_data"
+    type="shelves_to_waypoints.py" output="screen" />
+</launch>

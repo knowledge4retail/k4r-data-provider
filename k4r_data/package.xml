@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+    <name>k4r_data</name>
+    <version>0.0.1</version>
+    <description>
+        Provide data from K4R data provider to the system
+    </description>
+
+    <maintainer email="andreas.bresser@dfki.de">Andreas Bresser</maintainer>
+
+    <license>BSD</license>
+
+    <author email="andreas.bresser@dfki.de">Andreas Bresser</author>
+
+    <buildtool_depend>catkin</buildtool_depend>
+
+    <build_depend>k4r_data_msgs</build_depend>
+    <build_depend>geometry_msgs</build_depend>
+
+    <run_depend>rospy</run_depend>
+    <run_depend>message_runtime</run_depend>
+    <run_depend>k4r_data_msgs</run_depend>
+    <run_depend>geometry_msgs</run_depend>
+</package>

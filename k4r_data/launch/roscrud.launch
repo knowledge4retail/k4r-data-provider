@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+ <node name="shelf_node" output="screen" pkg="k4r_data" type="shelf.py"/>
+ <node name="product_node" output="screen" pkg="k4r_data" type="product.py"/>
+</launch>
