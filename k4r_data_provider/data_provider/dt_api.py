@@ -1,9 +1,13 @@
-from .data import DataProvider, Store, Shelf, Product
-from .dtapi_con import DTApiCon
-import rospy
+from ..model import DataProvider, Store, Shelf, Product
+from ..dtapi_con import DTApiCon
+try:
+    import rospy
+    loginfo = rospy.loginfo
+except:
+    def loginfo(msg):
+        print(msg)
 import math
-from tf.transformations import \
-    euler_from_quaternion
+from ..utils import quaternion_to_euler
 
 
 GTINS_SHELVES = {
@@ -49,7 +53,7 @@ GTINS = GTINS_SHELVES.keys()
 def convert_unit(unit, depth, width, height):
     mul = 1
     if not unit:
-        rospy.loginfo(f'WARNING: Unit type undefined!')
+        loginfo(f'WARNING: Unit type undefined!')
         return depth * mul, width * mul, height * mul
     if unit['name'].lower() == 'meter':
         mul = 1.0
@@ -60,20 +64,20 @@ def convert_unit(unit, depth, width, height):
         mul = 0.1
     # try symbols after all names fail
     elif unit['symbol'].lower() == 'm':
-        rospy.loginfo(
+        loginfo(
             f'WARNING: Assuming meter for symbol {unit["symbol"]}')
         mul = 1.0
     elif unit['symbol'].lower() == 'mmt':
-        rospy.loginfo(
+        loginfo(
             f'WARNING: Assuming millimeter for symbol {unit["symbol"]}')
         mul = 0.001
     elif unit['symbol'].lower() == 'cmt':
-        rospy.loginfo(
+        loginfo(
             f'WARNING: Assuming centimeter for symbol {unit["symbol"]}')
         mul = 0.1
     else:
         # we stick to 1.0 if the type is unknown
-        rospy.loginfo(f'WARNING: Unhandled unit type {unit["name"]}')
+        loginfo(f'WARNING: Unhandled unit type {unit["name"]}')
     return depth * mul, width * mul, height * mul
 
 
@@ -112,7 +116,7 @@ def parse_shelves(_shelf_data, unit_cache=None):
         if -0.02 < shelf_center_z < 0.02:
             # see BottomLeftPositionStrategy.ts
             # euler = roll, pitch, yaw in radians
-            euler = euler_from_quaternion(orientation)
+            euler = quaternion_to_euler(*orientation)
 
             # angle = Euler yaw in radians (NOT shifted by Pi)
             angle = euler[2] # + (math.pi / 2)
@@ -158,10 +162,10 @@ def rotate_offset(size, angle):
 
 
 class DTAPIDataProvider(DataProvider):
-    def __init__(self):
+    def __init__(self, con=None):
         super().__init__()
         self.name = 'DT-API'
-        self.con = DTApiCon()
+        self.con = con if con else DTApiCon()
         self.unit_cache = self.con.get_units()
 
     def get_stores(self) -> list:

@@ -1,7 +1,7 @@
 from pathlib import Path
 import os
 import json
-from .data import DataProvider, Store, Shelf, Product
+from ..model import DataProvider, Store, Shelf, Product
 from .dt_api import parse_shelves, GTINS, GTINS_SHELVES
 
 
@@ -21,10 +21,10 @@ def store_path(name):
     return DATA_PATH / name
 
 
-class StaticDataProvider(DataProvider):
-    def __init__(self):
-        super().__init__()
-        self.name = 'Static'
+class FilesDataProvider(DataProvider):
+    def __init__(self, con=None):
+        super().__init__(con)
+        self.name = 'files'
 
     def get_stores(self) -> list:
         self.stores = [

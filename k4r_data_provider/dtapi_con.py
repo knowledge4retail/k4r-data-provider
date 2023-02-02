@@ -1,6 +1,7 @@
-import os
 # communication with dtapi, use request_pkcs12 for development and
 # normal requests inside the kubernetes cloud
+
+import os
 import requests
 import json
 from pathlib import Path
@@ -40,7 +41,7 @@ DTAPI_BARCODES = f'{DTAPI_BASE}barcodes/BARCODE_ID'
 DTAPI_TROLLEYS = f'{DTAPI_BASE}stores/STORE_ID/trolleys'
 DTAPI_TROLLEY_ROUTES = f'{DTAPI_BASE}trolleys/TROLLEY_ID/trolleyroutes'
 DTAPI_DELIVERED_UNITS = f'{DTAPI_BASE}deliveredunits'
-
+DTAPI_STORES_AGGREGATES = f'{DTAPI_STORES}/aggregates'
 
 
 class DTApiCon:
@@ -53,7 +54,11 @@ class DTApiCon:
             self.from_ros()
         else:
             self.use_cert = True
-            self.pks12_pw = "HP$q!$P8tphiL5UYsA*8tn4US!*Mjz" # pks12_pw
+            if os.path.exists(pks12_pw):
+                with open(pks12_pw, 'r') as f:
+                    self.pks12_pw = f.read()
+            else:
+                self.pks12_pw = pks12_pw
         
         assert os.path.exists(self.certificate_path), \
             self.certificate_path
@@ -114,8 +119,15 @@ class DTApiCon:
             DTAPI_TROLLEY_ROUTES.replace('TROLLEY_ID', str(trolley_id)))
 
     def get_delivered_units(self) -> list:
-        # FIXME might be an empty list?
-        return self.get(DTAPI_DELIVERED_UNITS)
+        # WARNING: This might be an empty list, so we provide a list
+        # based on static files in that case.
+        delivered_units = self.get(DTAPI_DELIVERED_UNITS)
+        if not delivered_units:
+            print('WARNING: No delivered units')
+        return delivered_units
+
+    def all_stores_aggregates(self) -> list:
+        return self.get(DTAPI_STORES_AGGREGATES)
 
     def all_gtins(self):
         return self.get(DTAPI_ALL_GTIN)
@@ -181,7 +193,10 @@ class DTApiCon:
             r = put(url, data=data, headers=HEADERS,
                 pkcs12_filename=self.certificate_path,
                 pkcs12_password=self.pks12_pw)
-        rospy.loginfo(r.text)
+        # if ROS_AVAILABLE:
+        #     rospy.loginfo(r.text)
+        # else:
+        #     print(r.text)
         return json.loads(r.text)
 
     def delete(self, url: str, data: dict) -> dict:
@@ -231,8 +246,17 @@ if __name__ == '__main__':
     # Test to see if the API is working
     con = DTApiCon(**(parser.parse_args().__dict__))
     store_id = None
-    for store in con.get_stores():
-        print(store['storeName'], store['id'])
+    for store in con.all_stores_aggregates():
+        store_name = store['storeName']
+        if not store['shelfCount'] or not store['shelfLayerCount']:
+            # print(f'Store ({store_name}) does not have any shelves!')
+            continue
+        if not store['barcodeCount']:
+            # print(f'Store ({store_name}) does not have any barcodes!')
+            continue
+        print(store_name, store['id'], 
+            store['shelfCount'], store['shelfLayerCount'], 
+            store['barcodeCount'], store['productCount'])
         if 'PPELE' in store['storeName']:
             store_id = store['id']
     #if not store_id:
@@ -240,9 +264,14 @@ if __name__ == '__main__':
     print(store_id)
 
     print(con.get_delivered_units())
-    # trolleys = con.get_trolleys(store_id)
-    # for trolley in trolleys:
-    #     print(trolley)
+
+    # print(con.get_delivered_units())
+    trolleys = con.get_trolleys(store_id)
+    if not trolleys:
+        print('no trolleys found in store!')
+    for trolley in trolleys:
+        print(trolley)
+
     #     trolley_id = trolley['id']
     #     trolley_routes = con.get_trolley_routes(trolley_id)
     #     trolley_missions = dict_by_key(trolley_routes, 'sortingDate')

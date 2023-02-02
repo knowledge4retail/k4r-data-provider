@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 KNOWN_PATHS = [
     "ShelfSystemH200T7L12W/ShelfSystemH200T7L12W.dae",
     "ShelfSystemH180T5L10G/ShelfSystemH180T5L10G.dae",
@@ -20,28 +21,6 @@ KNOWN_PATHS = [
     "ShelfSystemH200T7L10W/ShelfSystemH200T7L10W.dae",
     "ShelfSystemH200T6L6W/ShelfSystemH200T6L6W.dae"
 ]
-
-
-@dataclass
-class Store:
-    id: str
-    storeName: str = ''
-    storeNumber: str = ''
-    addressCountry: str = ''
-    addressState: str = ''
-    addressCity: str = ''
-    addressPostcode: str = ''
-    addressStreet: str = ''
-    addressStreetNumber: str = ''
-    addressAdditional: str = ''
-    longitude: float = 0.0
-    latitude: float = 0.0
-    cadPlanId: str = ''
-    externalReferenceId: str = None
-
-    @property
-    def name(self):
-        return f'{self.id}_{self.storeName}'
 
 
 @dataclass
@@ -74,54 +53,3 @@ class Shelf:
                 self.model = f'package://refills_models/shelf_models/{p}'
                 return self.model
         return ''
-
-
-
-@dataclass
-class Product:
-    # this data gets forwarded to ROS as well, see k4r_data_msgs/Product
-    # should be in the form ANXXXXXXX
-    gtin: str
-    # path to 3D model (stl/dae-file)
-    product_id: str # package://refills_models/product_model/<name>/<name>.dae
-    # Human-readyble description for the product
-    name: str
-    # list of shelves that this product is in.
-    shelf_ids: list
-    # position and orientation on the shelf
-    position: list
-    orientation: list
-    # defines if the pose rotation is a quaternion or a list of angles
-    quaternion: bool # default = True
-    # defines if the values for the orientation angles are radians or euler
-    radians: bool # default = False
-
-class DataProvider:
-    def __init__(self):
-        # list of all known stores
-        self.stores = []
-        # products by store-id
-        self.products = {}
-        # shelves by store-id
-        self.shelves = {}
-
-    def get_stores(self) -> list:
-        raise NotImplementedError()
-
-    def knows_store(self, store_name: str) -> bool:
-        return store_name in [s.name for s in self.stores]
-
-    def get_shelves(self, map_name: str) -> list:
-        raise NotImplementedError()
-
-    def get_products(self, map_name: str) -> list:
-        raise NotImplementedError()
-
-    def get_product(self, map_name: str, gtin: str) -> Product:
-        raise NotImplementedError()
-
-    def get_product_data(self, map_name: str, gtin: str) -> dict:
-        raise NotImplementedError()
-
-    def get_product_shelves(self, map_name: str, max_shelves: int=100) -> list:
-        raise NotImplementedError()

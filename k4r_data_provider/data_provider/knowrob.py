@@ -4,8 +4,8 @@ import json
 import time
 import requests
 from requests.exceptions import ConnectionError, ReadTimeout
-from .data import DataProvider, Store, Shelf, Product
-from .static import StaticDataProvider, get_product_list
+from ..model import DataProvider, Store, Shelf, Product
+from .files import FilesDataProvider, get_product_list
 
 DT_API_DEFAULT = '848_Uni-Bremen'
 DEFAULT_TIMEOUT = 20
@@ -20,13 +20,15 @@ except ModuleNotFoundError:
 
 class KnowrobDataProvider(DataProvider):
     def __init__(
-            self, store_name=DT_API_DEFAULT,
+            self, con=None,
+            store_name=DT_API_DEFAULT,
             use_cache=USE_CACHE, timeout=DEFAULT_TIMEOUT,
             retry=True, max_queries=1000):
+        self.con = con
         self.store_name = store_name
         self.name = 'Knowrob'
         if use_cache:
-            self.cache = StaticDataProvider()
+            self.cache = FilesDataProvider()
         else:
             self.cache = None
         self.stores = [Store(id='848', storeName=self.store_name)]

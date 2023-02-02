@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-# create waypoints from shelves
+# ROS Service to create waypoints from shelves
+
 import os
 import math
 import rospy
@@ -9,8 +10,7 @@ from diagnostic_msgs.msg import KeyValue
 from std_msgs.msg import String
 
 # tf helper functions
-from tf.transformations import \
-    euler_from_quaternion
+from k4r_data_provider.utils import quaternion_to_euler
 
 # custom ROS-datatypes/Messages
 from k4r_data_msgs.msg import Shelf
@@ -131,7 +131,7 @@ class ShelvesToWaypointNode:
         ]
 
         # euler = roll, pitch, yaw in radians
-        euler = euler_from_quaternion(orientation)
+        euler = quaternion_to_euler(*orientation)
         
         angle = euler[2] + (math.pi / 2)
 

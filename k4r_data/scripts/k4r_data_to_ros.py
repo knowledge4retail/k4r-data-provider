@@ -6,9 +6,9 @@
 import rospy
 import json
 # local imports
-from utils import orientation_from_list
-from data_provider import get_data_provider_class
-from data_provider.data import DataProvider
+from k4r_data_provider.utils import orientation_from_list
+from k4r_data_provider.data_provider import get_data_provider_class
+from k4r_data_provider.model import DataProvider
 
 # ROS messages and services  - basics
 from geometry_msgs.msg import Pose
