@@ -71,7 +71,7 @@ class FilesDataProvider(DataProvider):
             shelves = json.load(shelves_file)
             return parse_shelves(shelves)
         else:
-            print(f'{shelves_path} does not exist')
+            print(f'{shelves_path_dt} nor {shelves_path_kr} exist')
             return []
 
     def get_products(self, store_name: str) -> list:

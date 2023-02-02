@@ -44,7 +44,7 @@ The K4R-data-provider is used provide the state of the environment to the knowle
 
 ## Contributing
 
-Please use the [issue tracker](map_desc/issues) to submit bug reports and feature requests. Please use merge requests as described [here](/CONTRIBUTING.md) to add/adapt functionality. 
+Please use the [issue tracker](/issues) to submit bug reports and feature requests. Please use merge requests as described [here](/CONTRIBUTING.md) to add/adapt functionality. 
 
 ## License
 
