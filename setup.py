@@ -19,6 +19,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'argcomplete',
+        'requests_pkcs12'
     ],
     entry_points={
         'console_scripts': [
