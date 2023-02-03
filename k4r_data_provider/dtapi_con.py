@@ -19,8 +19,8 @@ except:
 
 BASE_PATH = Path(os.path.dirname(__file__)).parent.parent
 # DT-API configuration
-# DTAPI_URI = 'https://dt-api.sandbox.knowledge4retail.org/k4r/'
-DTAPI_URI = 'http://k4r-dt-api:8090/k4r/'
+DTAPI_URI = 'https://dt-api.sandbox.knowledge4retail.org/k4r/'
+# DTAPI_URI = 'http://k4r-dt-api:8090/k4r/'
 DTAPI_USE_CERTIFICATE = True
 CERTIFICATE_PATH = BASE_PATH / 'certificate'
 CERTIFICATE_FILENAME = 'sandbox-2022.p12'

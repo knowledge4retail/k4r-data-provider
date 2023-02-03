@@ -5,6 +5,8 @@
 """K4R Data Provider command line tool."""
 
 import os
+import json
+import dataclasses
 import argparse
 import argcomplete
 import logging
@@ -83,7 +85,11 @@ def main():
     for depend in CMDS[args.cmd]['depends']:
         getattr(inst, depend)()
     params = [(name, getattr(args, name)) for name in CMDS[args.cmd]['param']]
-    print(getattr(inst, args.cmd)(**dict(params)))
+    result = getattr(inst, args.cmd)(**dict(params))
+    if dataclasses.is_dataclass(result):
+        print(json.dumps(dataclasses.as_dict(dict_result), indent=2))
+    else:
+        print(json.dumps(result))
 
 
 
