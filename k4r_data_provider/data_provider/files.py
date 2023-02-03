@@ -43,18 +43,23 @@ class FilesDataProvider(DataProvider):
     def get_shelves(self, store_name: str) -> list:
         # get shelves from static knowrob entry
         shelves = []
+        if not store_name:
+            print('store name not set')
+            return shelves
         path = store_path(store_name)
+        if not path.exists():
+            print(f'store path {path} does not exist!')
+            return shelves
         shelves_path_kr = path / SHELVES_KNOWROB_PATH
         shelves_path_dt = path / SHELVES_DTAPI_PATH
-        if os.path.exists(shelves_path_kr):
+        if shelves_path_kr.exists():
             shelves_file = open(shelves_path_kr, 'r')
-            shelves = json.load(shelves_file)
-            if '#' in shelf[0]:
-                shelf_id = shelf[0].split('#')[1].lower()
-            else:
-                shelf_id = shelf[0]
-            return [
-                Shelf(
+            for shelf in json.load(shelves_file):
+                if '#' in shelf[0]:
+                    shelf_id = shelf[0].split('#')[1].lower()
+                else:
+                    shelf_id = shelf[0]
+                shelves.append(Shelf(
                     uri=shelf[0],
                     shelf_id=shelf_id,
                     model=shelf[1],
@@ -64,15 +69,15 @@ class FilesDataProvider(DataProvider):
                     width=shelf[4],
                     height=shelf[5],
                     quaternion=True,
-                    radians=True)
-                for shelf in shelves]
-        elif os.path.exists(shelves_path_dt):
+                    radians=True))
+            return shelves
+        elif shelves_path_dt.exists():
             shelves_file = open(shelves_path_dt, 'r')
             shelves = json.load(shelves_file)
             return parse_shelves(shelves)
         else:
             print(f'{shelves_path_dt} nor {shelves_path_kr} exist')
-            return []
+            return shelves
 
     def get_products(self, store_name: str) -> list:
         product_list = get_product_list(store_name)

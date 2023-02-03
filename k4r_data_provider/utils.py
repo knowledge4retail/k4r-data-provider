@@ -1,3 +1,6 @@
+import math
+
+
 def euler_to_quaternion(roll: float, pitch: float, yaw: float) -> set:
     # roll (X), pitch (Y), yaw (Z),
     # Abbreviations for the various angular functions based on 
@@ -16,6 +19,7 @@ def euler_to_quaternion(roll: float, pitch: float, yaw: float) -> set:
         cr * cp * sy - sr * sp * cy, # z
         cr * cp * cy + sr * sp * sy  # w
     )
+
 
 def quaternion_to_euler(x: float, y: float, z: float, w: float):
     # roll (x-axis rotation)

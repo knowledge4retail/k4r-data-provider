@@ -15,7 +15,12 @@ k4r_data_provider \
 
 k4r_data_provider \
     get_shelves \
-    --store_id 0 \
+    --store_name '0_Uni-Bremen' \
+    --data_source files
+
+k4r_data_provider \
+    get_shelves \
+    --store_name '0_WaterFront' \
     --data_source files
 
 #k4r_data_provider \
