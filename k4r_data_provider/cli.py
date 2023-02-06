@@ -20,12 +20,17 @@ logger = logging.getLogger(__name__)
 
 
 CMDS = {
+    'get_items': {'param': [], 'depends': []},
+    'get_units': {'param': [], 'depends': []},
+    'get_materialgroups': {'param': [], 'depends': []},
     'get_stores': {'param': [], 'depends': []},
-    'knows_store': {'param': ['store_name'], 'depends': ['get_stores']},
-    'get_shelves': {'param': ['store_name'], 'depends': ['get_stores']},
-    'get_products': {'param': ['store_name'], 'depends': ['get_stores']},
-    'get_product_data': {'param': ['store_name'], 'depends': ['get_stores']},
-    'get_product_shelves': {'param': ['store_name'], 'depends': ['get_stores']}
+    'get_gtins': {'param': [], 'depends': []},
+    'get_product_units': {'param': [], 'depends': []},
+    'get_products': {'param': ['store_name', 'store_id'], 'depends': ['get_stores']},
+    'knows_store': {'param': ['store_name', 'store_id'], 'depends': ['get_stores']},
+    'get_shelves': {'param': ['store_name', 'store_id'], 'depends': ['get_stores']},
+    'get_product_data': {'param': ['store_name', 'store_id'], 'depends': ['get_stores']},
+    'get_product_shelves': {'param': ['store_name', 'store_id'], 'depends': ['get_stores']}
 }
 
 
@@ -43,7 +48,7 @@ def main():
     parser.add_argument('cmd', help='Command to execute', choices=CMDS.keys())
     parser.add_argument(
         '--data_source', help='Data Source.', choices=[
-            'files', 'dtapi', 'knowrob'], default='dtapi')
+            'files', 'dtapi', 'dtapi_local', 'knowrob', 'knowrob_local'], default='dtapi')
     # configuration for DT-API
     parser.add_argument(
         '--certificate_path', help='Certificate path (dtapi only).', 
@@ -54,9 +59,11 @@ def main():
     parser.add_argument(
         '--dtapi_uri', help='URI to dtapi-endpoint.', 
         default='https://dt-api.sandbox.knowledge4retail.org/k4r/')
+    # you need to set both, store name and store so can create a unique map name
     parser.add_argument('--store_name',
-        help='name of the store, normally the store id, an underscore '
-            'and the map name', default='')
+        help='name of the store.', default='')
+    parser.add_argument('--store_id',
+        help='id of the store.', default=0)
     parser.add_argument('--gtin', help='GTIN of the product', default='')
     parser.add_argument('--data-path', help='path to input data', default=None)
     argcomplete.autocomplete(parser)

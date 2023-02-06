@@ -2,3 +2,4 @@ __pycache__
 *.pyc
 k4r_data/certificate/*
 *.egg-info/
+dtapi_data/*

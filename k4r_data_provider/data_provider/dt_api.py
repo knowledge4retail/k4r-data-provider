@@ -144,7 +144,8 @@ def parse_shelves(_shelf_data, unit_cache=None):
         # by adding a "w" infront
         shelf_id = f'w{shelf_id}'
         shelf = Shelf(
-            shelf_id=shelf_id, model='', uri=f'dt-api#{shelf_id}',
+            shelf_id=shelf_id, dtapi_id=shelf_data['id'], 
+            model='', uri=f'dt-api#{shelf_id}',
             position=position, orientation=orientation, 
             width=width, height=height, depth=depth,
             quaternion=True, radians=False)
@@ -168,6 +169,15 @@ class DTAPIDataProvider(DataProvider):
         self.con = con if con else DTApiCon()
         self.unit_cache = self.con.get_units()
 
+    def get_units(self) -> list:
+        return self.unit_cache
+
+    def get_gtins(self) -> list:
+        return self.con.all_gtins()
+
+    def get_items(self) -> list:
+        return self.con.get_items()
+
     def get_stores(self) -> list:
         self.stores = [Store(**s) for s in self.con.get_stores()]
         return self.stores
@@ -175,45 +185,51 @@ class DTAPIDataProvider(DataProvider):
     def knows_store(self, store_name):
         return super().knows_store(store_name) if '_' in store_name else False
 
-    def get_shelves(self, map_name: str, max_shelves=100) -> list:
-        assert '_' in map_name
-        store_id = map_name.split('_')[0]
+    def get_shelves(self, store_name: str, store_id: int, max_shelves=100) -> list:
         _shelf_data = self.con.get_shelves(store_id)
 
         shelves = parse_shelves(_shelf_data, self.unit_cache)
         
-        self.shelves[map_name] = shelves
+        self.shelves[f'{store_id}_{store_name}'] = shelves
         return shelves
 
-    # ----------------------------------------------
-    # XXX: Products are just hardcoded data because we are missing real data!
-    # ----------------------------------------------
+    def get_materialgroups(self) -> list:
+        return self.con.get_materialgroups()
 
-    def get_products(self, map_name: str) -> list:
-        products = []
+    def get_products(self, store_name, store_id) -> list:
+        # self.con.get_products() would get all products from all 
+        # stores but we just return dummy data for testing!!
+        self.get_dummy_products(store_name, store_id)
+
+    def get_dummy_products(self, store_name, store_id):
         for gtin in GTINS:
-            products.append(self.get_product(map_name, gtin))
+           products.append(self.get_product(store_name, store_id, gtin))
         return products
 
-    def get_product(self, map_name: str, gtin: str) -> Product:
+    def get_product_units(self) -> list:
+        # get products from all stores
+        return self.con.get_product_units()
+
+    def get_product(self, store_name: str, store_id: int, gtin: str) -> Product:
         # We do not have the product position or orientation!
-        return Product(**self.get_product_data(map_name, gtin))
+        return Product(**self.get_product_data(store_name, store_id, gtin))
 
-    def get_product_data(self, map_name: str, gtin: str) -> dict:
-        position = [0]*3
-        orientation = [0]*3+[1]
-        return {
-            'gtin': gtin,
-            'name': GTINS_SHELVES[gtin]['name'],
-            'product_id': gtin,
-            'position': position,
-            'orientation': orientation,
-            'shelf_ids': [GTINS_SHELVES[gtin]['shelf']],
-            'quaternion': True,
-            'radians': True
-        }
+    def get_product_data(self, store_name: str, store_id: int, gtin: str) -> dict:
+        # TODO: request from server!
+        raise NotImplementedError()
+        # position = [0]*3
+        # orientation = [0]*3+[1]
+        # return {
+        #     'gtin': gtin,
+        #     'name': GTINS_SHELVES[gtin]['name'],
+        #     'product_id': gtin,
+        #     'position': position,
+        #     'orientation': orientation,
+        #     'shelf_ids': [GTINS_SHELVES[gtin]['shelf']],
+        #     'quaternion': True,
+        #     'radians': True
+        # }
 
-    def get_product_shelves(self, map_name: str, max_shelves: int=100) -> list:
-        # TODO?
-        # raise NotImplementedError()
-        return []
+    def get_product_shelves(self, store_name: str, store_id: int, max_shelves: int=100) -> list:
+        raise NotImplementedError()
+        # return []

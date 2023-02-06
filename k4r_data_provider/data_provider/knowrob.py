@@ -136,8 +136,8 @@ class KnowrobDataProvider(DataProvider):
 
     def get_product_shelves(self, store_name: str, max_shelves: int=100) -> list:
         # TODO?
-        # raise NotImplementedError()
-        return []
+        raise NotImplementedError()
+        # return []
 
 
 def query_knowrob(

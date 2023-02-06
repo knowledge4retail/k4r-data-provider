@@ -7,7 +7,7 @@ from .dt_api import parse_shelves, GTINS, GTINS_SHELVES
 
 BASE = Path(os.path.dirname(__file__))
 DATA_PATH = BASE / 'data'
-PRODUCT_PATH = 'products'  # folder
+PRODUCT_PATH = 'product_shelves'  # folder with all products in to shelves
 PRODUCT_LIST = 'product_list.json'
 # We have 2 different sources from shelves, either knowrob or dtapi.
 # The data is structured differently!
@@ -25,6 +25,8 @@ class FilesDataProvider(DataProvider):
     def __init__(self, con=None):
         super().__init__(con)
         self.name = 'files'
+        with open(DATA_PATH / 'units.json', 'r') as fd:
+            self.unit_cache = json.loads(fd.read())
 
     def get_stores(self) -> list:
         self.stores = [
@@ -33,14 +35,9 @@ class FilesDataProvider(DataProvider):
         return self.stores
 
     def get_units(self) -> dict:
-        return [{
-            'id': 1,
-            'name': 'meter',
-            'type': 'length',
-            'symbol': 'm'
-        }]
+        return self.unit_cache
 
-    def get_shelves(self, store_name: str) -> list:
+    def get_shelves(self, store_name: str, store_id: str) -> list:
         # get shelves from static knowrob entry
         shelves = []
         if not store_name:
@@ -160,8 +157,8 @@ class FilesDataProvider(DataProvider):
 
     def get_product_shelves(self, store_name: str, max_shelves: int=100) -> list:
         # TODO!
-        # raise NotImplementedError()
-        return []
+        raise NotImplementedError()
+        # return []
 
 def get_product_list(store_name):
     path = store_path(store_name)

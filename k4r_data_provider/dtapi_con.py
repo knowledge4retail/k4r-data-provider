@@ -32,6 +32,10 @@ DTAPI_BASE = 'api/v0/'
 DTAPI_STORES = f'{DTAPI_BASE}stores'
 DTAPI_MAP2D = f'{DTAPI_STORES}STORE_ID/map2d'
 DTAPI_DEVICES = f'{DTAPI_BASE}devices'
+DTAPI_ITEMS = f'{DTAPI_BASE}items'
+DTAPI_PRODUCTS = f'{DTAPI_BASE}products'
+DTAPI_PRODUCT_UNITS = f'{DTAPI_BASE}productunits'
+DTAPI_MATERIALGROUPS = f'{DTAPI_BASE}materialgroups'
 DTAPI_SHELVES = f'{DTAPI_BASE}stores/STORE_ID/shelves'
 DTAPI_SHELF_LAYER = f'{DTAPI_BASE}shelves/SHELF_ID/shelflayers'
 DTAPI_ALL_GTIN = f'{DTAPI_BASE}productgtins'
@@ -105,18 +109,33 @@ class DTApiCon:
         """
         return self.get(DTAPI_STORES)
 
-    def get_shelves(self, store_id: int) -> list:
+    def get_shelves(self, store_id: int, store_name: str = None) -> list:
         return self.get(DTAPI_SHELVES.replace('STORE_ID', str(store_id)))
 
-    def get_shelf_layer(self, shelf_id: int) -> list:
+    def get_shelf_layer(self, shelf_id: int, store_name: str = None) -> list:
         return self.get(DTAPI_SHELF_LAYER.replace('SHELF_ID', str(shelf_id)))
 
-    def get_trolleys(self, store_id: int) -> list:
+    def get_trolleys(self, store_id: int, store_name: str = None) -> list:
         return self.get(DTAPI_TROLLEYS.replace('STORE_ID', str(store_id)))
 
-    def get_trolley_routes(self, trolley_id: int) -> list:
+    def get_trolley_routes(self, trolley_id: int, store_name: str = None) -> list:
         return self.get(
             DTAPI_TROLLEY_ROUTES.replace('TROLLEY_ID', str(trolley_id)))
+
+    def get_materialgroups(self):
+        return self.get(DTAPI_MATERIALGROUPS)
+
+    def get_gtins(self):
+        return self.all_gtins()
+
+    def get_items(self) -> list:
+        return self.get(DTAPI_ITEMS)
+
+    def get_products(self) -> list:
+        return self.get(DTAPI_PRODUCTS)
+
+    def get_product_units(self) -> list:
+        return self.get(DTAPI_PRODUCT_UNITS)
 
     def get_delivered_units(self) -> list:
         # WARNING: This might be an empty list, so we provide a list
@@ -230,102 +249,3 @@ def dict_by_key(lst: list, key: str) -> dict:
         dic.setdefault(item[key], [])
         dic[item[key]].append(item)
     return dic
-
-if __name__ == '__main__':
-    import argparse
-    parser = argparse.ArgumentParser(description='Access DT-API.')
-    parser.add_argument(
-        '--pks12_pw', type=str, help='PKS12-Password token.', default=None,
-        required=False)
-    parser.add_argument(
-        '--certificate_path', type=str, required=False,
-        help='absolute path to Certificate', default=None)
-    parser.add_argument(
-        '--dtapi_uri', type=str, help='URI to API-endpoint.', default=None,
-        required=False)
-    # Test to see if the API is working
-    con = DTApiCon(**(parser.parse_args().__dict__))
-    store_id = None
-    for store in con.all_stores_aggregates():
-        store_name = store['storeName']
-        if not store['shelfCount'] or not store['shelfLayerCount']:
-            # print(f'Store ({store_name}) does not have any shelves!')
-            continue
-        if not store['barcodeCount']:
-            # print(f'Store ({store_name}) does not have any barcodes!')
-            continue
-        print(store_name, store['id'], 
-            store['shelfCount'], store['shelfLayerCount'], 
-            store['barcodeCount'], store['productCount'])
-        if 'PPELE' in store['storeName']:
-            store_id = store['id']
-    #if not store_id:
-    #    raise Exception('No WATER(FRONT) store found!')
-    print(store_id)
-
-    print(con.get_delivered_units())
-
-    # print(con.get_delivered_units())
-    trolleys = con.get_trolleys(store_id)
-    if not trolleys:
-        print('no trolleys found in store!')
-    for trolley in trolleys:
-        print(trolley)
-
-    #     trolley_id = trolley['id']
-    #     trolley_routes = con.get_trolley_routes(trolley_id)
-    #     trolley_missions = dict_by_key(trolley_routes, 'sortingDate')
-    #     for name, trolley_route in trolley_missions.items():
-    #         trolley_missions[name] = sorted(trolley_route, 
-    #             key=lambda tr: tr['routeOrder'])
-    #     print(json.dumps(
-    #         trolley_missions, indent=2))
-    #     for route in trolley_routes:
-    #         print(route)
-    
-
-
-    # for gtin in con.all_gtins():
-    #     if gtin['gtin']:
-    #         print(gtin)
-
-    # for shelf in con.get_shelves(store_id):
-    #     shelf_id = shelf['id']
-    #     shelf_layers = con.get_shelf_layer(shelf_id)
-    #     for shelf_layer in shelf_layers:
-    #         barcodes = con.get_shelf_layer_barcodes(shelf_layer['id'])
-    #         for barcode in barcodes:
-    #             print(barcode['productGtinId'])
-
-    #print(len(gtins))
-    # existing_gtins = []
-    # for gtin_entry in gtins:
-    #     if 'gtin' in gtin_entry and gtin_entry['gtin']:
-    #         existing_gtins.append(gtin_entry)
-
-    # print(existing_gtins)
-    #saved_gtins = [g.split('.json')[0] for g in 
-    #    os.listdir(BASE_PATH / 'data' / 'products')]
-    #for gtin in gtins:
-    #    if gtin['gtin'] in saved_gtins:
-    #        existing_gtins += [gtin]
-    #print(len(existing_gtins))
-
-def noop():
-    stores = con.get_stores()
-    print(f'Received {len(stores)} stores')
-    selected_store = None
-    for store in stores:
-        shelves_txt = '?'
-        if store["storeName"].startswith('HB-WATER'):
-            shelves = con.get_shelves(store["id"])
-            shelves_txt = str(len(shelves))
-            if len(shelves) > 0:
-                selected_store = store['id'], store["storeName"], shelves
-        print(f' - {store["id"]}: {store["storeName"]} {shelves_txt}')
-
-    if selected_store:
-        store_id, store_name, shelves = selected_store
-        print(
-            f'Select store {store_name} ({store_id}) with '
-            f'{len(shelves)} shelves.')

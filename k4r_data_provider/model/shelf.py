@@ -26,6 +26,7 @@ KNOWN_PATHS = [
 @dataclass
 class Shelf:
     shelf_id: str # e.g. from uri or or reference-id
+    dtapi_id: int # 0
     uri: str # "http://knowrob.org/kb/dm-market.owl#DMShelfW100_EVZDYXFU"
     # path to 3D model (stl/dae-file)
     model: str # package://refills_models/shelf_models/<name>/<name>.dae

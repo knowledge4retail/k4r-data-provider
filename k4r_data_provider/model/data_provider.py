@@ -10,6 +10,9 @@ class DataProvider:
         # shelves by store-id
         self.shelves = {}
 
+    def get_units(self) -> list:
+        raise NotImplementedError()
+
     def get_stores(self) -> list:
         raise NotImplementedError()
 
