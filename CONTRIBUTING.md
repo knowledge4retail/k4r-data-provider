@@ -10,7 +10,7 @@ what you are trying to do.
 The preferred way to contribute to *k4r-data-provider* is to fork the main repository on Gitlab, then submit a "pull request"
 (PR):
 
-1. Fork the [project repository](git@github.com:knowledge4retail/k4r-data-provider):
+1. Fork the [project repository](https://github.com/knowledge4retail/k4r-data-provider):
    click on the 'Fork' button near the top of the page. This creates a copy of
    the code under your account on the Gitlab server.
 

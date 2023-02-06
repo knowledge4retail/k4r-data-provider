@@ -27,24 +27,29 @@ sudo pip3 install .
 
 ### ROS-environment
 The ROS environment can be build using catkin.
-For certificate authentification with the K4R platform you need to add your certificates to the k4r_data-folder
+For certificate authentification with the K4R platform you need to add your certificates to the k4r_data-folder.
 
 ### Dependencies
 To use the ROS-Services you need to install ROS 1 noetic.
-To just import/export K4R-data using the CLI you just need 
+To just import/export K4R-data using the CLI you just need `requests_pkcs12` and certificates for a dt-api connection or a Knowrob instance for the knowrob-type. We also provide some test data in the `k4r_data_provider/data_provider/data`-folder.
 
 ## Usage
-Depending on what you like to do you have different options.
+Depending on what you like to do you have different options:
 
 ### Usage for the CLI
 To download data from the platform and store it for later use you can utilize the CLI. To see the usage for the CLI type `k4r_data_provider -h` after installation.
 
+To connect to the K4R-Platform you need to have a certificate and a file containing the password for the certificate.
+
+See `test.bash` for some example calls.
+
 ### Run as part of the K4R Platform
 The K4R-data-provider is used provide the state of the environment to the knowledge base of the planning system in the K4R-planning docker container.
+Take a look at the K4R-planning docker environment for an example implementation.
 
 ## Contributing
 
-Please use the [issue tracker](/issues) to submit bug reports and feature requests. Please use merge requests as described [here](/CONTRIBUTING.md) to add/adapt functionality. 
+Please use the [issue tracker](https://github.com/knowledge4retail/k4r-data-provider/issues) to submit bug reports and feature requests. Please use merge requests as described [here](/CONTRIBUTING.md) to add/adapt functionality. 
 
 ## License
 
