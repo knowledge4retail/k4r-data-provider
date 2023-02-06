@@ -1,6 +1,6 @@
 # K4R Data Provider
 
-The **K4R Data Provider** forwards data from the Digital Twin API (dt-api) of the Knowledge4Retail platform, a local files or knowrob (like shelves or products) to ROS.
+The **K4R Data Provider** forwards data from the Digital Twin API (dt-api) of the Knowledge4Retail platform, local files or knowrob (like shelves or products) to ROS.
 
 The K4R data provider was initiated developed at the [Robotics Innovation Center](http://robotik.dfki-bremen.de/en/startpage.html) of the [German Research Center for Artificial Intelligence (DFKI)](http://www.dfki.de) in Bremen.
 
