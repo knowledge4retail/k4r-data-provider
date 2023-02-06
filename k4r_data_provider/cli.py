@@ -13,6 +13,7 @@ import logging
 from pathlib import Path
 from .data_provider import get_data_provider_class, DTAPIDataProvider
 from .dtapi_con import DTApiCon
+from .utils import DataClassToDictEncoder
 
 CONFIG_FORMATTER = '%(asctime)s %(name)s[%(levelname)s] %(message)s'
 logger = logging.getLogger(__name__)
@@ -86,11 +87,7 @@ def main():
         getattr(inst, depend)()
     params = [(name, getattr(args, name)) for name in CMDS[args.cmd]['param']]
     result = getattr(inst, args.cmd)(**dict(params))
-    if dataclasses.is_dataclass(result):
-        print(json.dumps(dataclasses.as_dict(dict_result), indent=2))
-    else:
-        print(json.dumps(result))
-
+    print(json.dumps(result, indent=2, cls=DataClassToDictEncoder))
 
 
 if __name__ == '__main__':

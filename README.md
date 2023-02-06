@@ -7,7 +7,7 @@ The K4R data provider was initiated developed at the [Robotics Innovation Center
 ![](doc/images/DFKI_Logo_e_schrift.jpg)
 
 ## Motivation
-The **K4R Data Provider** allows you to use data from the K4R Platform in ROS-Services. 
+The **K4R Data Provider** acts as a bridge between the K4R-Platform and ROS, so you can use data from the K4R Platform in ROS-Messages. 
 You can either use the k4r_data_provider as command line interface (CLI) to get the data from the Services and save as json files or use the provided ROS Services to publish the data to ROS directly (for Product and Shelf)
 
 ## Installation

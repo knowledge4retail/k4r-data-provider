@@ -1,4 +1,14 @@
 import math
+import dataclasses
+import json
+
+
+class DataClassToDictEncoder(json.JSONEncoder):
+    # Helper class for JSON decoding of dataclasses
+    def default(self, obj):
+        if dataclasses.is_dataclass(obj):
+            return dataclasses.asdict(obj)
+        return super().default(data)
 
 
 def euler_to_quaternion(roll: float, pitch: float, yaw: float) -> set:
