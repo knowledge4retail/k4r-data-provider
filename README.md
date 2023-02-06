@@ -47,6 +47,9 @@ See `test.bash` for some example calls.
 The K4R-data-provider is used provide the state of the environment to the knowledge base of the planning system in the K4R-planning docker container.
 Take a look at the K4R-planning docker environment for an example implementation.
 
+## Testing
+You can run the tests locally using pytest.
+
 ## Contributing
 
 Please use the [issue tracker](https://github.com/knowledge4retail/k4r-data-provider/issues) to submit bug reports and feature requests. Please use merge requests as described [here](/CONTRIBUTING.md) to add/adapt functionality. 
