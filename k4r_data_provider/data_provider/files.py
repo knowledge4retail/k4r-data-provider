@@ -31,7 +31,8 @@ class FilesDataProvider(DataProvider):
     def get_stores(self) -> list:
         self.stores = [
             Store(id=_id, storeName=name) 
-            for _id, name in enumerate(os.listdir(DATA_PATH))]
+            for _id, name in enumerate(os.listdir(DATA_PATH))
+            if (DATA_PATH / name).is_dir()]
         return self.stores
 
     def get_units(self) -> dict:
@@ -58,6 +59,7 @@ class FilesDataProvider(DataProvider):
                     shelf_id = shelf[0]
                 shelves.append(Shelf(
                     uri=shelf[0],
+                    dtapi_id=-1,
                     shelf_id=shelf_id,
                     model=shelf[1],
                     position=shelf[2][1],
