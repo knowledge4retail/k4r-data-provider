@@ -1,5 +1,5 @@
 __pycache__
 *.pyc
-k4r_data/certificate/*.pem
-k4r_data/certificate/*.p12
-k4r_data/certificate/*.der
+k4r_data/certificate/*
+*.egg-info/
+dtapi_data/*

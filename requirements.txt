@@ -1,0 +1,3 @@
+pytest
+argcomplete
+requests_pkcs12

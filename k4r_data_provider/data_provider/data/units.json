@@ -1,0 +1,237 @@
+[
+    {
+      "id": 1,
+      "name": "meter",
+      "type": "length",
+      "symbol": "m"
+    },
+    {
+      "id": 2,
+      "name": "Milimeter",
+      "type": "Don't Know",
+      "symbol": "MMT"
+    },
+    {
+      "id": 3,
+      "name": "Centimeter",
+      "type": "Don't Know",
+      "symbol": "CMT"
+    },
+    {
+      "id": 4,
+      "name": "Cubic Metres volume",
+      "type": "Don't Know",
+      "symbol": "MTQ"
+    },
+    {
+      "id": 5,
+      "name": "Error",
+      "type": "ERROR",
+      "symbol": "ERR"
+    },
+    {
+      "id": 6,
+      "name": "Kilogram",
+      "type": "Kilo",
+      "symbol": "KGM"
+    },
+    {
+      "id": 7,
+      "name": "Gram",
+      "type": "Gram",
+      "symbol": "GRM"
+    },
+    {
+      "id": 8,
+      "name": "litre",
+      "type": "litre",
+      "symbol": "LTR"
+    },
+    {
+      "id": 49,
+      "name": "Millimeter",
+      "type": "Length",
+      "symbol": "MM"
+    },
+    {
+      "id": 50,
+      "name": "Litre",
+      "type": "Volume",
+      "symbol": "L"
+    },
+    {
+      "id": 51,
+      "name": "Cubic Meter",
+      "type": "Volume",
+      "symbol": "M3"
+    },
+    {
+      "id": 52,
+      "name": "Cubic Centimeter",
+      "type": "Volume",
+      "symbol": "CCM"
+    },
+    {
+      "id": 53,
+      "name": "Gram",
+      "type": "Weight",
+      "symbol": "G"
+    },
+    {
+      "id": 54,
+      "name": "Millimeter",
+      "type": "Length",
+      "symbol": "MM"
+    },
+    {
+      "id": 55,
+      "name": "Litre",
+      "type": "Volume",
+      "symbol": "L"
+    },
+    {
+      "id": 56,
+      "name": "Cubic Meter",
+      "type": "Volume",
+      "symbol": "M3"
+    },
+    {
+      "id": 57,
+      "name": "Cubic Centimeter",
+      "type": "Volume",
+      "symbol": "CCM"
+    },
+    {
+      "id": 58,
+      "name": "Gram",
+      "type": "Weight",
+      "symbol": "G"
+    },
+    {
+      "id": 60,
+      "name": "Millimeter",
+      "type": "Length",
+      "symbol": "MM"
+    },
+    {
+      "id": 61,
+      "name": "Litre",
+      "type": "Volume",
+      "symbol": "L"
+    },
+    {
+      "id": 62,
+      "name": "Cubic Meter",
+      "type": "Volume",
+      "symbol": "M3"
+    },
+    {
+      "id": 63,
+      "name": "Cubic Centimeter",
+      "type": "Volume",
+      "symbol": "CCM"
+    },
+    {
+      "id": 64,
+      "name": "Gram",
+      "type": "Weight",
+      "symbol": "G"
+    },
+    {
+      "id": 65,
+      "name": "Millimeter",
+      "type": "Length",
+      "symbol": "MM"
+    },
+    {
+      "id": 66,
+      "name": "Litre",
+      "type": "Volume",
+      "symbol": "L"
+    },
+    {
+      "id": 67,
+      "name": "Cubic Meter",
+      "type": "Volume",
+      "symbol": "M3"
+    },
+    {
+      "id": 68,
+      "name": "Cubic Centimeter",
+      "type": "Volume",
+      "symbol": "CCM"
+    },
+    {
+      "id": 69,
+      "name": "Gram",
+      "type": "Weight",
+      "symbol": "G"
+    },
+    {
+      "id": 70,
+      "name": "Millimeter",
+      "type": "Length",
+      "symbol": "MM"
+    },
+    {
+      "id": 71,
+      "name": "Litre",
+      "type": "Volume",
+      "symbol": "L"
+    },
+    {
+      "id": 72,
+      "name": "Cubic Meter",
+      "type": "Volume",
+      "symbol": "M3"
+    },
+    {
+      "id": 73,
+      "name": "Cubic Centimeter",
+      "type": "Volume",
+      "symbol": "CCM"
+    },
+    {
+      "id": 74,
+      "name": "Gram",
+      "type": "Weight",
+      "symbol": "G"
+    },
+    {
+      "id": 75,
+      "name": "Centimeter",
+      "type": "Length",
+      "symbol": "CM"
+    },
+    {
+      "id": 76,
+      "name": "Millimeter",
+      "type": "Length",
+      "symbol": "MM"
+    },
+    {
+      "id": 77,
+      "name": "Litre",
+      "type": "Volume",
+      "symbol": "L"
+    },
+    {
+      "id": 78,
+      "name": "Cubic Meter",
+      "type": "Volume",
+      "symbol": "M3"
+    },
+    {
+      "id": 79,
+      "name": "Cubic Centimeter",
+      "type": "Volume",
+      "symbol": "CCM"
+    },
+    {
+      "id": 80,
+      "name": "Gram",
+      "type": "Weight",
+      "symbol": "G"
+    }
+  ]
+  
